@@ -13,7 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { ChainContext } from '../context/ChainContext';
 import { ConnectWalletMenu } from './ConnectWalletMenu';
 import { SignInMenu } from './SignInMenu';
-import { ModeToggle } from './ui/theme-toggle';
+import { ModeToggle } from '@/components/ui/theme-toggle';
 
 export function Nav() {
   const { displayName: currentChainName, chain, setChain } = useContext(ChainContext);
@@ -29,7 +29,7 @@ export function Nav() {
       <div className="flex h-14 items-center justify-between px-4">
         <div className="flex flex-1">
           <h1 className="text-xl font-semibold sm:text-2xl truncate">
-            Solana React App{' '}
+            Solana Starter{' '}
             {setChain ? (
               <DropdownMenu>
                 <DropdownMenuTrigger className="inline-flex items-center gap-1">
