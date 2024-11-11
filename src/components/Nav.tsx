@@ -27,8 +27,8 @@ export function Nav() {
         <div className="flex items-center gap-4">
           <ConnectWalletMenu>Connect Wallet</ConnectWalletMenu>
           <SignInMenu>Sign In</SignInMenu>
-          <ModeToggle />
           <ChainSelector />
+          <ModeToggle />
         </div>
       </div>
     </nav>
