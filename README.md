@@ -1,7 +1,7 @@
 <p align="center">
 	<h1 align="center"><b>Solana Starter</b></h1>
 <p align="center">
-    An open-source Solana starter using Next 15, Turbopack, Tanstack, Shadcn, Tailwind, Solana 2.0, Wallet Stadard, and Plausible.
+    Everything you need to start building a production ready Solana dApp. An open-source Solana starter using Next 15, Turbopack, Tanstack, Shadcn, Tailwind, Solana 2.0, Wallet Stadard, and Plausible.
     <br />
     <br />
     <a href="#whats-included"><strong>What's included</strong></a> ·
@@ -9,9 +9,6 @@
     <a href="#getting-started"><strong>Getting Started</strong></a> ·
   </p>
 </p>
-
-Everything you need to start building a production ready Solana dApp , it's a
-lightweight starter using the latest Next.js framework.
 
 ## What's included
 
