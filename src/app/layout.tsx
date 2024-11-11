@@ -1,17 +1,13 @@
 import '@radix-ui/themes/styles.css'
 import './globals.css'
-
 import { Theme } from '@radix-ui/themes'
 import { type Metadata } from 'next'
-
+import { Providers } from '@/components/providers/Providers'
 import { Nav } from '@/components/Nav'
-import { ChainContextProvider } from '@/context/ChainContextProvider'
-import { RpcContextProvider } from '@/context/RpcContextProvider'
-import { SelectedWalletAccountContextProvider } from '@/context/SelectedWalletAccountContextProvider'
 
 export const metadata: Metadata = {
-  title: 'Wallet App',
-  description: 'Wallet connection and transaction management'
+  title: 'Solana dApp',
+  description: 'Solana Wallet and Transaction Management'
 }
 
 export default function RootLayout({
@@ -20,17 +16,13 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
         <Theme>
-          <ChainContextProvider>
-            <SelectedWalletAccountContextProvider>
-              <RpcContextProvider>
-                <Nav />
-                {children}
-              </RpcContextProvider>
-            </SelectedWalletAccountContextProvider>
-          </ChainContextProvider>
+          <Providers>
+            <Nav />
+            {children}
+          </Providers>
         </Theme>
       </body>
     </html>
