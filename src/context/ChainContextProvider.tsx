@@ -1,14 +1,14 @@
 "use client";
 
 import { mainnet, testnet } from '@solana/web3.js';
-import { useMemo, useState } from 'react';
-
+import { useMemo } from 'react';
+import { useLocalStorage } from '@/hooks/use-local-storage';
 import { ChainContext, DEFAULT_CHAIN_CONFIG } from './ChainContext';
 
 const STORAGE_KEY = 'solana-example-react-app:selected-chain';
 
 export function ChainContextProvider({ children }: { children: React.ReactNode }) {
-    const [chain, setChain] = useState(() => localStorage.getItem(STORAGE_KEY) ?? 'solana:devnet');
+    const [chain, setChain] = useLocalStorage(STORAGE_KEY, 'solana:devnet');
     const contextValue = useMemo<ChainContext>(() => {
         switch (chain) {
             // ts-expect-error Intentional fall through
@@ -45,12 +45,11 @@ export function ChainContextProvider({ children }: { children: React.ReactNode }
             value={useMemo(
                 () => ({
                     ...contextValue,
-                    setChain(chain) {
-                        localStorage.setItem(STORAGE_KEY, chain);
-                        setChain(chain);
+                    setChain(newChain) {
+                        setChain(newChain);
                     },
                 }),
-                [contextValue],
+                [contextValue, setChain],
             )}
         >
             {children}

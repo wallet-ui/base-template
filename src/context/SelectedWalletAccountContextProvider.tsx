@@ -8,27 +8,18 @@ import {
     uiWalletAccountsAreSame,
     useWallets,
 } from '@wallet-standard/react';
-import { useEffect, useMemo, useState } from 'react';
-
+import { useLocalStorage } from '@/hooks/use-local-storage';
+import { useEffect, useMemo, type Dispatch, type SetStateAction } from 'react';
 import { SelectedWalletAccountContext, SelectedWalletAccountState } from './SelectedWalletAccountContext';
 
 const STORAGE_KEY = 'solana-wallet-standard-example-react:selected-wallet-and-address';
 
-let wasSetterInvoked = false;
-function getSavedWalletAccount(wallets: readonly UiWallet[]): UiWalletAccount | undefined {
-    if (wasSetterInvoked) {
-        // After the user makes an explicit choice of wallet, stop trying to auto-select the
-        // saved wallet, if and when it appears.
-        return;
-    }
-    const savedWalletNameAndAddress = localStorage.getItem(STORAGE_KEY);
-    if (!savedWalletNameAndAddress || typeof savedWalletNameAndAddress !== 'string') {
-        return;
-    }
-    const [savedWalletName, savedAccountAddress] = savedWalletNameAndAddress.split(':');
-    if (!savedWalletName || !savedAccountAddress) {
-        return;
-    }
+function getSavedWalletAccount(wallets: readonly UiWallet[], savedKey: string | null): UiWalletAccount | undefined {
+    if (!savedKey) return undefined;
+    
+    const [savedWalletName, savedAccountAddress] = savedKey.split(':');
+    if (!savedWalletName || !savedAccountAddress) return undefined;
+    
     for (const wallet of wallets) {
         if (wallet.name === savedWalletName) {
             for (const account of wallet.accounts) {
@@ -38,66 +29,75 @@ function getSavedWalletAccount(wallets: readonly UiWallet[]): UiWalletAccount | 
             }
         }
     }
+    return undefined;
 }
 
-/**
- * Saves the selected wallet account's storage key to the browser's local storage. In future
- * sessions it will try to return that same wallet account, or at least one from the same brand of
- * wallet if the wallet from which it came is still in the Wallet Standard registry.
- */
 export function SelectedWalletAccountContextProvider({ children }: { children: React.ReactNode }) {
     const wallets = useWallets();
-    const [selectedWalletAccount, setSelectedWalletAccountInternal] = useState<SelectedWalletAccountState>(() =>
-        getSavedWalletAccount(wallets),
+    const [storedKey, setStoredKey] = useLocalStorage<string | null>(STORAGE_KEY, null);
+    const [selectedWalletAccount, setSelectedWalletAccount] = useLocalStorage<SelectedWalletAccountState>(
+        'selected-wallet-account',
+        undefined
     );
-    const setSelectedWalletAccount: React.Dispatch<
-        React.SetStateAction<SelectedWalletAccountState>
-    > = setStateAction => {
-        setSelectedWalletAccountInternal(prevSelectedWalletAccount => {
-            wasSetterInvoked = true;
-            const nextWalletAccount =
-                typeof setStateAction === 'function' ? setStateAction(prevSelectedWalletAccount) : setStateAction;
-            const accountKey = nextWalletAccount ? getUiWalletAccountStorageKey(nextWalletAccount) : undefined;
-            if (accountKey) {
-                localStorage.setItem(STORAGE_KEY, accountKey);
-            } else {
-                localStorage.removeItem(STORAGE_KEY);
-            }
-            return nextWalletAccount;
-        });
-    };
+
+    // Initialize or update wallet account based on stored key
     useEffect(() => {
-        const savedWalletAccount = getSavedWalletAccount(wallets);
-        if (savedWalletAccount) {
-            setSelectedWalletAccountInternal(savedWalletAccount);
+        const savedAccount = getSavedWalletAccount(wallets, storedKey);
+        if (savedAccount && (!selectedWalletAccount || 
+            !uiWalletAccountsAreSame(savedAccount, selectedWalletAccount))) {
+            setSelectedWalletAccount(savedAccount);
         }
-    }, [wallets]);
+    }, [wallets, storedKey, selectedWalletAccount, setSelectedWalletAccount]);
+
+    // Find current wallet account
     const walletAccount = useMemo(() => {
-        if (selectedWalletAccount) {
-            for (const uiWallet of wallets) {
-                for (const uiWalletAccount of uiWallet.accounts) {
-                    if (uiWalletAccountsAreSame(selectedWalletAccount, uiWalletAccount)) {
-                        return uiWalletAccount;
-                    }
-                }
-                if (uiWalletAccountBelongsToUiWallet(selectedWalletAccount, uiWallet) && uiWallet.accounts[0]) {
-                    // If the selected account belongs to this connected wallet, at least, then
-                    // select one of its accounts.
-                    return uiWallet.accounts[0];
+        if (!selectedWalletAccount) return undefined;
+
+        for (const uiWallet of wallets) {
+            // Try to find exact match
+            for (const uiWalletAccount of uiWallet.accounts) {
+                if (uiWalletAccountsAreSame(selectedWalletAccount, uiWalletAccount)) {
+                    return uiWalletAccount;
                 }
             }
+            // Fallback to first account of same wallet
+            if (uiWalletAccountBelongsToUiWallet(selectedWalletAccount, uiWallet) && 
+                uiWallet.accounts[0]) {
+                return uiWallet.accounts[0];
+            }
         }
+        return undefined;
     }, [selectedWalletAccount, wallets]);
+
+    // Clear selection if wallet disconnected
     useEffect(() => {
-        // If there is a selected wallet account but the wallet to which it belongs has since
-        // disconnected, clear the selected wallet.
         if (selectedWalletAccount && !walletAccount) {
-            setSelectedWalletAccountInternal(undefined);
+            setSelectedWalletAccount(undefined);
+            setStoredKey(null);
         }
-    }, [selectedWalletAccount, walletAccount]);
+    }, [selectedWalletAccount, walletAccount, setSelectedWalletAccount, setStoredKey]);
+
+    // Update handler for wallet account selection
+    const handleSetWalletAccount: Dispatch<SetStateAction<SelectedWalletAccountState>> = useMemo(() => {
+        return (value: SetStateAction<SelectedWalletAccountState>) => {
+            const newAccount = typeof value === 'function' 
+                ? value(selectedWalletAccount) 
+                : value;
+            
+            setSelectedWalletAccount(newAccount);
+            
+            if (newAccount) {
+                const accountKey = getUiWalletAccountStorageKey(newAccount);
+                setStoredKey(accountKey);
+            } else {
+                setStoredKey(null);
+            }
+        };
+    }, [selectedWalletAccount, setSelectedWalletAccount, setStoredKey]);
+
     return (
         <SelectedWalletAccountContext.Provider
-            value={useMemo(() => [walletAccount, setSelectedWalletAccount], [walletAccount])}
+            value={[walletAccount, handleSetWalletAccount] as const}
         >
             {children}
         </SelectedWalletAccountContext.Provider>
