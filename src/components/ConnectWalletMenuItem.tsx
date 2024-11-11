@@ -7,8 +7,6 @@ import { uiWalletAccountsAreSame, useConnect, useDisconnect } from '@wallet-stan
 import { SelectedWalletAccountContext } from '../context/SelectedWalletAccountContext';
 import { WalletMenuItemContent } from './WalletMenuItemContent';
 import {
-    DropdownMenu,
-    DropdownMenuContent,
     DropdownMenuSub,
     DropdownMenuSubTrigger,
     DropdownMenuSubContent,
@@ -17,7 +15,6 @@ import {
     DropdownMenuRadioItem,
     DropdownMenuItem,
     DropdownMenuSeparator,
-    DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
 interface Props {
@@ -56,22 +53,14 @@ export function ConnectWalletMenuItem({ onAccountSelect, onDisconnect, onError, 
 
     if (!isConnected) {
         return (
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <div className="w-full">
-                        <WalletMenuItemContent loading={isPending} wallet={wallet} />
-                    </div>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                    <DropdownMenuItem
-                        disabled={isPending}
-                        onSelect={handleConnectClick}
-                        className="w-full"
-                    >
-                        Connect
-                    </DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>
+            <DropdownMenuItem
+                disabled={isPending}
+                onSelect={handleConnectClick}
+            >
+                <WalletMenuItemContent loading={isPending} wallet={wallet}>
+                    Connect
+                </WalletMenuItemContent>
+            </DropdownMenuItem>
         );
     }
 

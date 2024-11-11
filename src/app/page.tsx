@@ -31,7 +31,7 @@ export default function HomePage() {
     ].filter(Boolean)
 
     return (
-        <div className="h-screen w-full justify-center items-center mx-auto px-4 md:px-6">
+        <div className="justify-center items-center mx-auto px-4 md:px-6 hide-scrollbar">
             {selectedWalletAccount ? (
                 <div className="flex flex-col gap-6 justify-center items-center h-screen">
                     <Card>
@@ -97,7 +97,7 @@ export default function HomePage() {
                     </ScrollArea>
                 </div>
             ) : (
-                <p className="text-muted-foreground">Click &ldquo;Connect Wallet&rdquo; to get started.</p>
+                <div className="text-muted-foreground font-mono flex flex-col items-center justify-center h-screen">Click &ldquo;Connect Wallet&rdquo; to get started.</div>
             )}
         </div>
     )

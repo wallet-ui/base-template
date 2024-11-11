@@ -86,3 +86,36 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .hide-scrollbar {
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+    overflow-y: auto !important;
+    z-index: 0 !important;
+    background-color: transparent !important;
+    background: transparent !important;
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    background: transparent !important;
+    z-index: 0 !important;
+    background-color: transparent !important;
+  }
+
+  .hide-scrollbar:hover,
+  .hide-scrollbar:focus,
+  .hide-scrollbar:active {
+    scrollbar-width: auto;
+    -ms-overflow-style: auto;
+  }
+
+  .hide-scrollbar:hover::-webkit-scrollbar,
+  .hide-scrollbar:focus::-webkit-scrollbar,
+  .hide-scrollbar:active::-webkit-scrollbar {
+    width: auto;
+    height: auto;
+  }
+}
