@@ -28,11 +28,11 @@ const GithubStarsButton = () => {
                         className="group p-1 px-4 flex items-center justify-center gap-x-2 cursor-pointer border rounded-md hover:bg-accent"
                     >
                         {stars !== null ? (
-                            <span className="text-white text-md font-lores-bold">
+                            <span className="text-foreground text-md font-mono">
                                 <AnimatedText text={stars.toString()} />
                             </span>
                         ) : (
-                            <span className="text-white text-md font-lores-bold">Loading...</span>
+                            <span className="text-foreground text-md font-mono">Loading...</span>
                         )}      
                         <IconStarFill className="fill-yellow-300 w-4 h-4" />
                     </span>
