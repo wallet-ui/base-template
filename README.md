@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<p align="center">
+	<h1 align="center"><b>Solana Starter</b></h1>
+<p align="center">
+    An open-source Solana starter using Next 15, Turbopack, Tanstack, Shadcn, Tailwind, Solana 2.0, Wallet Stadard, and Plausible.
+    <br />
+    <br />
+    <a href="https://v1.run"><strong>Website</strong></a> ·
+    <a href="https://github.com/midday-ai/v1/issues"><strong>Issues</strong></a> ·
+    <a href="#whats-included"><strong>What's included</strong></a> ·
+    <a href="#prerequisites"><strong>Prerequisites</strong></a> ·
+    <a href="#getting-started"><strong>Getting Started</strong></a> ·
+    <a href="#how-to-use"><strong>How to use</strong></a>
+  </p>
+</p>
+
+Everything you need to start building a production ready Solana dApp , it's a
+lightweight starter using the latest Next.js framework.
+
+## What's included
+
+[Next.js](https://nextjs.org/) - Framework<br>
+[TurboPack](https://turbo.build) - Bundler<br>
+[Tanstack Query](https://tanstack.com/query/latest) - API queries<br>
+[TailwindCSS](https://tailwindcss.com/) - Styling<br>
+[Shadcn](https://ui.shadcn.com/) - UI components<br>
+[Solana](https://github.com/solana-labs/solana-web3.js) - Web3 Framework<br>
+[Wallet Standard](https://github.com/wallet-standard/wallet-standard) - Wallet
+connector Framework<br> [TypeScript](https://www.typescriptlang.org/) - Type
+safety<br> [Plausible](https://plausible.io/sites) - Analytics<br>
+[Polar](https://polar.sh) - Billing (coming soon)<br>
+[next-themes](https://next-themes-example.vercel.app/) - Theme manager<br>
+
+## Prerequisites
+
+Bun<br> Plausible (optional)<br>
 
 ## Getting Started
 
-First, run the development server:
+Install bun if you don't have it
+
+Mac
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+curl -fsSL https://bun.sh/install | bash
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Windows
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+powershell -c "irm bun.sh/install.ps1 | iex"
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Clone this repo locally with the following command:
 
-## Learn More
+```bash
+bunx degit stevesarmiento/solana-starter my-solana-app
+```
 
-To learn more about Next.js, take a look at the following resources:
+1. Install dependencies using bun:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```sh
+bun i
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. Start the development server from either bun or turbo:
 
-## Deploy on Vercel
+```ts
+bun dev // starts everything in development mode
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## How to use
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This boilerplate is inspired by our work on Midday, and it's designed to serve
+as a reference for real-world apps. Feel free to dive into the code and see how
+we've tackled various features. Whether you're looking to understand
+authentication flows, database interactions, or UI components, you'll find
+practical, battle-tested implementations throughout the codebase. It's not just
+a starting point; it's a learning resource that can help you build your own
+applications.
+
+With this, you have a great starting point for your own project.
