@@ -1,9 +1,10 @@
-import '@radix-ui/themes/styles.css'
 import './globals.css'
-import { Theme } from '@radix-ui/themes'
 import { type Metadata } from 'next'
 import { Providers } from '@/components/providers/Providers'
 import { Nav } from '@/components/Nav'
+import { ThemeProvider } from '@/components/ui/theme-provicer'
+import PlausibleProvider from 'next-plausible'
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: 'Solana dApp',
@@ -17,13 +18,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <PlausibleProvider domain="url goes here" />
+      </head>
       <body>
-        <Theme>
+        <ThemeProvider>
           <Providers>
             <Nav />
             {children}
           </Providers>
-        </Theme>
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   )
