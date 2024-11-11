@@ -6,7 +6,7 @@ import { ChainSelector } from './ChainSelector';
 import { ConnectWalletMenu } from './ConnectWalletMenu';
 import { SignInMenu } from './SignInMenu';
 import { ModeToggle } from '@/components/ui/theme-toggle';
-
+import GithubStarsButton from './GithubStarsButton';
 export function Nav() {
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -18,9 +18,11 @@ export function Nav() {
               alt="Solana Logo"
               width={32}
               height={32}
-              className="h-8 w-8"
+              className="h-8 w-8 mr-4"
             />
           </Link>
+          <GithubStarsButton />
+
         </div>
         <div className="flex items-center gap-4">
           <ConnectWalletMenu>Connect Wallet</ConnectWalletMenu>
