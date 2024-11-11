@@ -64,9 +64,9 @@ export default function DashboardPage() {
                         </CardContent>
                     </Card>
 
-                    <ScrollArea className="w-full">
-                        <div className="flex flex-col gap-4 md:flex-row">
-                            <Card className="flex-1">
+                    <ScrollArea className="">
+                        <div className="flex flex-col gap-4">
+                            <Card className="">
                                 <CardHeader>
                                     <CardTitle>Sign Message</CardTitle>
                                 </CardHeader>
@@ -80,7 +80,7 @@ export default function DashboardPage() {
                                 </CardContent>
                             </Card>
 
-                            <Card className="flex-1">
+                            <Card className="">
                                 <CardHeader>
                                     <CardTitle>Sign And Send Transaction</CardTitle>
                                 </CardHeader>
