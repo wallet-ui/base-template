@@ -20,16 +20,11 @@ function getSavedWalletAccount(wallets: readonly UiWallet[], savedKey: string | 
     const [savedWalletName, savedAccountAddress] = savedKey.split(':');
     if (!savedWalletName || !savedAccountAddress) return undefined;
     
-    for (const wallet of wallets) {
-        if (wallet.name === savedWalletName) {
-            for (const account of wallet.accounts) {
-                if (account.address === savedAccountAddress) {
-                    return account;
-                }
-            }
-        }
-    }
-    return undefined;
+    // Check if the wallet is available and has populated its accounts
+    const wallet = wallets.find(w => w.name === savedWalletName);
+    if (!wallet || wallet.accounts.length === 0) return undefined;
+    
+    return wallet.accounts.find(account => account.address === savedAccountAddress);
 }
 
 export function SelectedWalletAccountContextProvider({ children }: { children: React.ReactNode }) {
@@ -43,33 +38,42 @@ export function SelectedWalletAccountContextProvider({ children }: { children: R
     // Initialize or update wallet account based on stored key
     useEffect(() => {
         const savedAccount = getSavedWalletAccount(wallets, storedKey);
-        if (savedAccount && (!selectedWalletAccount || 
-            !uiWalletAccountsAreSame(savedAccount, selectedWalletAccount))) {
+        if (!savedAccount) {
+            // Clear selection if saved account is not available
+            if (selectedWalletAccount) {
+                setSelectedWalletAccount(undefined);
+                setStoredKey(null);
+            }
+            return;
+        }
+
+        if (!selectedWalletAccount || !uiWalletAccountsAreSame(savedAccount, selectedWalletAccount)) {
             setSelectedWalletAccount(savedAccount);
         }
-    }, [wallets, storedKey, selectedWalletAccount, setSelectedWalletAccount]);
+    }, [wallets, storedKey, selectedWalletAccount, setSelectedWalletAccount, setStoredKey]);
 
-    // Find current wallet account
+    // Find current wallet account with validation
     const walletAccount = useMemo(() => {
         if (!selectedWalletAccount) return undefined;
 
         for (const uiWallet of wallets) {
+            if (uiWallet.accounts.length === 0) continue; // Skip wallets with no accounts
+
             // Try to find exact match
-            for (const uiWalletAccount of uiWallet.accounts) {
-                if (uiWalletAccountsAreSame(selectedWalletAccount, uiWalletAccount)) {
-                    return uiWalletAccount;
-                }
-            }
-            // Fallback to first account of same wallet
-            if (uiWalletAccountBelongsToUiWallet(selectedWalletAccount, uiWallet) && 
-                uiWallet.accounts[0]) {
+            const exactMatch = uiWallet.accounts.find(account => 
+                uiWalletAccountsAreSame(selectedWalletAccount, account)
+            );
+            if (exactMatch) return exactMatch;
+
+            // Fallback to first account of same wallet if exact match not found
+            if (uiWalletAccountBelongsToUiWallet(selectedWalletAccount, uiWallet)) {
                 return uiWallet.accounts[0];
             }
         }
         return undefined;
     }, [selectedWalletAccount, wallets]);
 
-    // Clear selection if wallet disconnected
+    // Clear selection if wallet disconnected or accounts not available
     useEffect(() => {
         if (selectedWalletAccount && !walletAccount) {
             setSelectedWalletAccount(undefined);
