@@ -21,7 +21,8 @@
 [Wallet Standard](https://github.com/wallet-standard/wallet-standard) - Wallet
 connector Framework<br> [TypeScript](https://www.typescriptlang.org/) - Type
 safety<br> [Plausible](https://plausible.io/sites) - Analytics<br>
-[next-themes](https://next-themes-example.vercel.app/) - Theme manager<br>
+[Content-collections](https://content-collections.dev/) - Markdown framework for blog<br>
+[Next-themes](https://next-themes-example.vercel.app/) - Theme manager<br>
 
 ## Prerequisites
 
