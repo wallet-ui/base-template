@@ -26,7 +26,7 @@ export function ChainSelector() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="inline-flex items-center gap-1">
+      <DropdownMenuTrigger asChild className="inline-flex items-center gap-1">
         {currentChainBadge}
       </DropdownMenuTrigger>
       <DropdownMenuContent>
