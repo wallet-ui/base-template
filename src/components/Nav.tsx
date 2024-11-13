@@ -22,6 +22,7 @@ export function Nav() {
             />
           </Link>
           <GithubStarsButton />
+          {/* <Link href="/blog">Blog</Link> */}
 
         </div>
         <div className="flex items-center gap-4">
