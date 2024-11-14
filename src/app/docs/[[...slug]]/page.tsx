@@ -10,6 +10,15 @@ import Link from 'next/link';
 import { IconChevronForward, IconChevronBackward } from 'symbols-react';
 import { allDocs } from 'content-collections';
 
+interface Doc {
+    content: string;
+    title: string;
+    description?: string;
+    _meta: {
+        filePath: string;
+    };
+}
+
 const DocPage = () => {
     const pathname = usePathname();
 
@@ -39,21 +48,12 @@ const DocPage = () => {
     );
 
     const DocContent = useMemo(() => {
-        if (!docItem?.mdPath) {
-            console.log('No mdPath found:', docItem);
-            return null;
-        }
-        const content = allDocs.find(doc => {
-            console.log('Comparing:', {
-                docPath: doc._meta.filePath,
-                mdPath: docItem.mdPath
-            });
-            return doc._meta.filePath === docItem.mdPath;
-        });
-        if (!content) {
-            console.log('No content found for path:', docItem.mdPath);
-            console.log('Available docs:', allDocs);
-        }
+        if (!docItem?.mdPath) return null;
+        
+        const content = allDocs.find((doc: Doc) => 
+            doc._meta.filePath === docItem.mdPath
+        );
+        
         return content;
     }, [docItem]);
 
@@ -61,8 +61,6 @@ const DocPage = () => {
         <DocLayout pathSegments={pathSegments}>
             <Suspense fallback={<SpinningLoader />}>
                 <div className="px-1">
-                    {!docItem && <p>No document configuration found for this path</p>}
-                    {docItem && !DocContent && <p>Content file not found: {docItem.mdPath}</p>}
                     {DocContent && (
                         <div className="prose dark:prose-invert max-w-none">
                             <h1>{DocContent.title}</h1>
