@@ -7,6 +7,6 @@ authors: ["Steven Sarmiento"]
 tags: ["testing"]
 ---
 
-## Testinga
+## Testing
 
 This is a test
