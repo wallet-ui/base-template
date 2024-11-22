@@ -54,12 +54,12 @@ export function Balance({ account }: Props) {
             </>
         );
     } else if (lamports == null) {
-        return <span className="text-muted-foreground">&ndash;</span>;
+        return <span className="text-muted-foreground font-mono">&ndash;</span>;
     } else {
         const formattedSolValue = new Intl.NumberFormat(undefined, { maximumFractionDigits: 5 }).format(
             // @ts-expect-error This format string is 100% allowed now.
             `${lamports}E-9`,
         );
-        return <span className="text-foreground">{`${formattedSolValue} \u25CE`}</span>;
+        return <span className="text-foreground/60 font-mono text-xl">{`${formattedSolValue}`}</span>;
     }
 }
