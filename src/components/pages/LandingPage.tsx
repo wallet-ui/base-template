@@ -32,7 +32,7 @@ export function LandingPage() {
   }, [selectedWalletAccount, router])
 
   return (
-    <div className="flex flex-col items-center justify-center mx-auto px-4 text-center">
+    <div className="flex flex-col items-center justify-center mx-auto h-screen px-4 text-center">
       <div className="inline-flex ring-1 ring-foreground/10 bg-foreground/5 rounded-2xl p-2 px-4 gap-2 mb-8">
         <IconSailboatFill className="w-[16px] h-[16px] fill-foreground/50" />
         <h2 className="text-[12px] line-height-[16px] font-semibold tracking-tight text-foreground/70 font-mono">
