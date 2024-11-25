@@ -39,8 +39,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ErrorDialog } from './ErrorDialog';
-import { WalletMenuItemContent } from './WalletMenuItemContent';
+import { WalletErrorDialog } from './wallet/wallet-error-dialog';
+import { WalletMenuItemContent } from './wallet/wallet-menu-item-content';
 
 type Props = Readonly<{
     account: UiWalletAccount;
@@ -225,7 +225,7 @@ export function SolanaSignAndSendTransactionFeaturePanel({ account }: Props) {
                 </Dialog>
 
                 {error !== NO_ERROR && (
-                    <ErrorDialog error={error} onClose={() => setError(NO_ERROR)} title="Transfer failed" />
+                    <WalletErrorDialog error={error} onClose={() => setError(NO_ERROR)} title="Transfer failed" />
                 )}
             </form>
         </div>

@@ -6,7 +6,7 @@ import type { ReadonlyUint8Array } from '@wallet-standard/core';
 import type { SyntheticEvent } from 'react';
 import { useRef, useState } from 'react';
 
-import { ErrorDialog } from '../components/ErrorDialog';
+import { WalletErrorDialog } from './wallet/wallet-error-dialog';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { 
@@ -121,7 +121,7 @@ export function BaseSignMessageFeaturePanel({ signMessage }: Props) {
             </Dialog>
 
             {error !== NO_ERROR && (
-                <ErrorDialog 
+                <WalletErrorDialog
                     error={error} 
                     onClose={() => setError(NO_ERROR)} 
                     title="Failed to sign message" 

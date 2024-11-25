@@ -1,6 +1,6 @@
 "use client";
 
-import { WalletAccountIcon } from '../WalletAccountIcon';
+import { WalletAccountIcon } from './wallet-account-icon';
 import { Balance } from '../Balance';
 import { ErrorBoundary } from 'react-error-boundary';
 import { UiWallet, UiWalletAccount, useDisconnect, useWallets } from '@wallet-standard/react';

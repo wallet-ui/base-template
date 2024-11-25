@@ -5,7 +5,7 @@ import { StandardConnect, StandardDisconnect } from '@wallet-standard/core';
 import { uiWalletAccountBelongsToUiWallet, useWallets } from '@wallet-standard/react';
 import { useRef, useState } from 'react';
 
-import { ErrorDialog } from '../ErrorDialog';
+import { WalletErrorDialog } from './wallet-error-dialog';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -78,7 +78,7 @@ export function ConnectWalletMenu({ children }: Props) {
                 </DropdownMenu>
 
                 {error !== NO_ERROR && (
-                    <ErrorDialog error={error} onClose={() => setError(NO_ERROR)} />
+                    <WalletErrorDialog error={error} onClose={() => setError(NO_ERROR)} />
                 )}
             </>
         );
@@ -138,7 +138,7 @@ export function ConnectWalletMenu({ children }: Props) {
             </Dialog>
 
             {error !== NO_ERROR && (
-                <ErrorDialog error={error} onClose={() => setError(NO_ERROR)} />
+                <WalletErrorDialog error={error} onClose={() => setError(NO_ERROR)} />
             )}
         </>
     );

@@ -2,8 +2,8 @@
 
 import { UiWallet, UiWalletAccount, useConnect } from '@wallet-standard/react';
 import { ErrorBoundary } from 'react-error-boundary';
-import { ConnectWalletMenuItem } from '../ConnectWalletMenuItem';
-import { UnconnectableWalletMenuItem } from '../UnconnectableWalletMenuItem';
+import { ConnectWalletMenuItem } from './connect-wallet-menu-item';
+import { UnconnectableWalletMenuItem } from './unconnectable-wallet-menu-item';
 import { DropdownMenuSeparator } from '../ui/dropdown-menu';
 import { Alert, AlertDescription } from '../ui/alert';
 import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
