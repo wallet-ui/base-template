@@ -11,7 +11,7 @@ const DocLayout: React.FC<DocLayoutProps> = ({ children, pathSegments }) => {
     return (
         <div className="relative flex flex-col h-full border-l-2 border-primary/10">
             <div className="sticky top-12 z-10 bg-background/10 h-12 py-8 px-6 backdrop-blur-xl">
-                 <Breadcrumb>
+                <Breadcrumb>
                     <BreadcrumbList>
                         {pathSegments.map((segment, index) => {
                             const href = '/' + pathSegments.slice(0, index + 1).join('/');
