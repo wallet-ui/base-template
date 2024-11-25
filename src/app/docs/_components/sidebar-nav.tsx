@@ -1,84 +1,91 @@
 "use client"
 
+import React from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { SidebarNavItem } from "@/types/nav"
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
+  SidebarMenuSub,
+  SidebarMenuSubItem,
+  SidebarMenuSubButton,
+  SidebarProvider,
+} from "@/components/ui/sidebar"
+import { IconKeyFill, IconPaintbrushFill, IconTarget, IconWrenchAndScrewdriverFill, IconMagnifyingglass, IconBookPagesFill } from "symbols-react"
 
-import { cn } from "@/lib/utils"
+const SECTION_ICONS: Record<string, React.ComponentType<React.SVGProps<SVGSVGElement>>> = {
+    "Wallet Connector UI": IconTarget,
+    "Getting Started": IconBookPagesFill,
+    "Customization": IconPaintbrushFill,
+    "Advanced": IconWrenchAndScrewdriverFill,
+    "Sign In With Solana": IconKeyFill,
+    "Reference": IconMagnifyingglass,
+  }
 
 export interface DocsSidebarNavProps {
-    items: SidebarNavItem[]
+  items: SidebarNavItem[]
 }
 
 export function DocsSidebarNav({ items }: DocsSidebarNavProps) {
-    const pathname = usePathname()
+  const pathname = usePathname()
+  const [openSections, setOpenSections] = React.useState<Record<string, boolean>>(
+    Object.fromEntries(items.map(section => [section.title, true]))
+  )
 
-    return items.length ? (
-        <div className="w-full">
-            {items.map((item, index) => (
-                <div key={index} className={cn("pb-4")}>
-                    <h4 className="mb-1 rounded-md px-2 py-1 text-sm font-semibold">
-                        {item.title}
-                    </h4>
-                    {item?.items?.length && (
-                        <DocsSidebarNavItems items={item.items} pathname={pathname} />
-                    )}
-                </div>
-            ))}
-        </div>
-    ) : null
-}
-
-interface DocsSidebarNavItemsProps {
-    items: SidebarNavItem[]
-    pathname: string | null
-}
-
-export function DocsSidebarNavItems({
-    items,
-    pathname,
-}: DocsSidebarNavItemsProps) {
-    return items?.length ? (
-        <div className="grid grid-flow-row auto-rows-max text-sm">
-            {items.map((item, index) =>
-                item.href && !item.disabled ? (
-                    <Link
-                        key={index}
-                        href={item.href}
-                        className={cn(
-                            "group flex w-full items-center rounded-md border border-transparent px-2 py-1 hover:underline",
-                            item.disabled && "cursor-not-allowed opacity-60",
-                            pathname === item.href
-                                ? "font-medium text-foreground"
-                                : "text-muted-foreground"
-                        )}
-                        target={item.external ? "_blank" : ""}
-                        rel={item.external ? "noreferrer" : ""}
-                    >
-                        {item.title}
-                        {item.label && (
-                            <span className="ml-2 rounded-md bg-[#adfa1d] px-1.5 py-0.5 text-xs leading-none text-[#000000] no-underline group-hover:no-underline">
-                                {item.label}
-                            </span>
-                        )}
-                    </Link>
-                ) : (
-                    <span
-                        key={index}
-                        className={cn(
-                            "flex w-full cursor-not-allowed items-center rounded-md p-2 text-muted-foreground hover:underline",
-                            item.disabled && "cursor-not-allowed opacity-60"
-                        )}
-                    >
-                        {item.title}
-                        {item.label && (
-                            <span className="ml-2 rounded-md bg-muted px-1.5 py-0.5 text-xs leading-none text-muted-foreground no-underline group-hover:no-underline">
-                                {item.label}
-                            </span>
-                        )}
-                    </span>
-                )
-            )}
-        </div>
-    ) : null
+  const toggleSection = (title: string) => {
+    setOpenSections(prev => ({
+      ...prev,
+      [title]: !prev[title]
+    }))
+  }
+  return (
+    <SidebarProvider defaultOpen>
+      <Sidebar className="top-[58px] h-[calc(100vh-58px)]">
+        <SidebarContent className="p-2">
+          <SidebarMenu>
+          {items.map((section, index) => {
+              const Icon = SECTION_ICONS[section.title]
+              return (
+                <SidebarMenuItem key={index}>
+                  <SidebarMenuButton 
+                    icon={Icon && <Icon className="h-4 w-4 fill-primary/70" />}
+                    isCollapsible={true}
+                    className="font-mono text-xs font-semibold text-primary/40"
+                    onClick={() => toggleSection(section.title)}
+                  >
+                    {section.title}
+                  </SidebarMenuButton>
+                  {section.items?.length && openSections[section.title] && (
+                    <SidebarMenuSub>
+                      {section.items.map((item, itemIndex) => (
+                        <SidebarMenuSubItem key={itemIndex}>
+                          <SidebarMenuSubButton
+                            asChild
+                            isActive={pathname === item.href}
+                          >
+                            <Link href={item.href || "#"}>
+                              {item.title}
+                              {item.label && (
+                                <span className="ml-2 rounded-md bg-[#adfa1d] px-1.5 py-0.5 text-xs leading-none text-[#000000]">
+                                  {item.label}
+                                </span>
+                              )}
+                            </Link>
+                          </SidebarMenuSubButton>
+                        </SidebarMenuSubItem>
+                      ))}
+                    </SidebarMenuSub>
+                  )}
+                </SidebarMenuItem>
+              )
+            })}
+          </SidebarMenu>
+        </SidebarContent>
+      </Sidebar>
+    </SidebarProvider>
+  )
 }

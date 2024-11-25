@@ -538,17 +538,23 @@ const SidebarMenuButton = React.forwardRef<
   React.ComponentProps<"button"> & {
     asChild?: boolean
     isActive?: boolean
+    isCollapsible?: boolean
     tooltip?: string | React.ComponentProps<typeof TooltipContent>
+    icon?: React.ReactNode
+    className?: string
   } & VariantProps<typeof sidebarMenuButtonVariants>
 >(
   (
     {
       asChild = false,
       isActive = false,
+      isCollapsible = false,
       variant = "default",
       size = "default",
       tooltip,
+      icon,
       className,
+      children,
       ...props
     },
     ref
@@ -562,9 +568,13 @@ const SidebarMenuButton = React.forwardRef<
         data-sidebar="menu-button"
         data-size={size}
         data-active={isActive}
+        data-collapsible={isCollapsible}
         className={cn(sidebarMenuButtonVariants({ variant, size }), className)}
         {...props}
-      />
+      >
+        {icon && <span className="shrink-0 mr-2">{icon}</span>}
+        {children}
+      </Comp>
     )
 
     if (!tooltip) {
