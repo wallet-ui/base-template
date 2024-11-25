@@ -5,7 +5,7 @@ import React from 'react';
 import type { FallbackProps } from 'react-error-boundary';
 
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { getErrorMessage } from '../errors';
+import { getWalletErrorMessage } from './wallet/get-wallet-error-message';
 import { cn } from '@/lib/utils';
 
 type Props = React.ComponentProps<typeof Alert> & FallbackProps;
@@ -23,7 +23,7 @@ export function FeatureNotSupportedCallout({
     >
       <IconExclamationmarkTriangle className="h-4 w-4" />
       <AlertDescription>
-        {getErrorMessage(error, 'This account does not support this feature')}
+        {getWalletErrorMessage(error, 'This account does not support this feature')}
       </AlertDescription>
     </Alert>
   );

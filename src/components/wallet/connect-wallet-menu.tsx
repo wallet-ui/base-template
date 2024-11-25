@@ -5,22 +5,22 @@ import { StandardConnect, StandardDisconnect } from '@wallet-standard/core';
 import { uiWalletAccountBelongsToUiWallet, useWallets } from '@wallet-standard/react';
 import { useRef, useState } from 'react';
 
-import { ErrorDialog } from '../ErrorDialog';
+import { WalletErrorDialog } from './wallet-error-dialog';
 import {
     DropdownMenu,
     DropdownMenuContent,
-} from "../ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 import {
     Dialog,
     DialogContent,
     DialogHeader,
     DialogTitle,
-} from "../ui/dialog";
+} from "@/components/ui/dialog";
 import { ConnectedWalletContent } from './connected-wallet-content';
 import { WalletList } from './wallet-list';
 import { WalletTrigger } from './wallet-trigger';
 import { WalletInfoContent } from './wallet-Info-content';
-import { Button } from '../ui/button';
+import { Button } from '@/components/ui/button';
 import { ChevronLeft, Info, X } from 'lucide-react';
 
 interface Props {
@@ -78,7 +78,7 @@ export function ConnectWalletMenu({ children }: Props) {
                 </DropdownMenu>
 
                 {error !== NO_ERROR && (
-                    <ErrorDialog error={error} onClose={() => setError(NO_ERROR)} />
+                    <WalletErrorDialog error={error} onClose={() => setError(NO_ERROR)} />
                 )}
             </>
         );
@@ -138,7 +138,7 @@ export function ConnectWalletMenu({ children }: Props) {
             </Dialog>
 
             {error !== NO_ERROR && (
-                <ErrorDialog error={error} onClose={() => setError(NO_ERROR)} />
+                <WalletErrorDialog error={error} onClose={() => setError(NO_ERROR)} />
             )}
         </>
     );

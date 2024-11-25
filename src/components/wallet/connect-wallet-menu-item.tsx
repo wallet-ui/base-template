@@ -5,7 +5,7 @@ import { useCallback } from 'react';
 import type { UiWallet, UiWalletAccount } from '@wallet-standard/react';
 import { uiWalletAccountsAreSame, useConnect, useDisconnect } from '@wallet-standard/react';
 
-import { WalletMenuItemContent } from './WalletMenuItemContent';
+import { WalletMenuItemContent } from './wallet-menu-item-content';
 import {
     DropdownMenuSub,
     DropdownMenuSubTrigger,

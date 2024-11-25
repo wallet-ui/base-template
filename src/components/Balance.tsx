@@ -7,9 +7,9 @@ import type { UiWalletAccount } from '@wallet-standard/react';
 import { useMemo } from 'react';
 import useSWRSubscription from 'swr/subscription';
 
-import { getErrorMessage } from '../errors';
+import { getWalletErrorMessage } from './wallet/get-wallet-error-message';
 import { balanceSubscribe } from '../functions/balance';
-import { ErrorDialog } from './ErrorDialog';
+import { WalletErrorDialog } from './wallet/wallet-error-dialog';
 
 import {
   HoverCard,
@@ -32,7 +32,7 @@ export function Balance({ account }: Props) {
     if (error && !seenErrors.has(error)) {
         return (
             <>
-                <ErrorDialog
+                <WalletErrorDialog
                     error={error}
                     key={`${account.address}:${chain.chain}`}
                     onClose={() => {
@@ -47,7 +47,7 @@ export function Balance({ account }: Props) {
                         />
                     </HoverCardTrigger>
                     <HoverCardContent>
-                        Could not fetch balance: {getErrorMessage(error, 'Unknown reason')}
+                        Could not fetch balance: {getWalletErrorMessage(error, 'Unknown reason')}
                     </HoverCardContent>
                 </HoverCard>
             </>

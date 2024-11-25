@@ -2,13 +2,13 @@
 
 import { UiWallet, UiWalletAccount, useConnect } from '@wallet-standard/react';
 import { ErrorBoundary } from 'react-error-boundary';
-import { ConnectWalletMenuItem } from '../ConnectWalletMenuItem';
-import { UnconnectableWalletMenuItem } from '../UnconnectableWalletMenuItem';
-import { DropdownMenuSeparator } from '../ui/dropdown-menu';
-import { Alert, AlertDescription } from '../ui/alert';
+import { ConnectWalletMenuItem } from './connect-wallet-menu-item';
+import { UnconnectableWalletMenuItem } from './unconnectable-wallet-menu-item';
+import { DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
 import { WalletMenuItemContent } from './wallet-menu-item-content';
-import { Button } from '../ui/button';
+import { Button } from '@/components/ui/button';
 
 interface WalletButtonProps {
     wallet: UiWallet;

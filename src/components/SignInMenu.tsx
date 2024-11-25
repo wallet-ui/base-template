@@ -15,9 +15,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { ErrorDialog } from './ErrorDialog';
+import { WalletErrorDialog } from './wallet/wallet-error-dialog';
 import { SignInMenuItem } from './SignInMenuItem';
-import { UnconnectableWalletMenuItem } from './UnconnectableWalletMenuItem';
+import { UnconnectableWalletMenuItem } from './wallet/unconnectable-wallet-menu-item';
 
 interface Props {
   children: React.ReactNode;
@@ -82,7 +82,7 @@ export function SignInMenu({ children }: Props) {
         </DropdownMenuContent>
       </DropdownMenu>
       {error !== NO_ERROR ? (
-        <ErrorDialog error={error} onClose={() => setError(NO_ERROR)} />
+        <WalletErrorDialog error={error} onClose={() => setError(NO_ERROR)} />
       ) : null}
     </>
   );

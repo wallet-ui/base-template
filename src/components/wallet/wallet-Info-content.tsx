@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { WalletIllustration } from './wallet-illustration';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Button } from '../ui/button';
+import { Button } from '@/components/ui/button';
 
 interface WalletInfoContentProps {
     onClose: () => void;

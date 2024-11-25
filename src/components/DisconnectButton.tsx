@@ -12,7 +12,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { NO_ERROR } from '../errors';
+import { NO_ERROR } from './wallet/get-wallet-error-message';
 
 interface DisconnectButtonProps extends React.ComponentProps<typeof Button> {
   wallet: UiWallet;

@@ -1,11 +1,11 @@
 "use client";
 
-import { WalletAccountIcon } from '../WalletAccountIcon';
-import { Balance } from '../Balance';
+import { WalletAccountIcon } from './wallet-account-icon';
+import { Balance } from '@/components/Balance';
 import { ErrorBoundary } from 'react-error-boundary';
 import { UiWallet, UiWalletAccount, useDisconnect, useWallets } from '@wallet-standard/react';
-import { DropdownMenuSeparator } from '../ui/dropdown-menu';
-import { Button } from '../ui/button';
+import { DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
 import { Copy, LogOut } from 'lucide-react';
 import { toast } from 'sonner';
 
