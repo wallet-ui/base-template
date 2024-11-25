@@ -9,7 +9,7 @@ import { Balance } from '@/components/Balance'
 import { FeatureNotSupportedCallout } from '@/components/FeatureNotSupportedCallout'
 import { SolanaSignAndSendTransactionFeaturePanel } from '@/components/SolanaSignAndSendTransactionFeaturePanel'
 import { SolanaSignMessageFeaturePanel } from '@/components/SolanaSignMessageFeaturePanel'
-import { WalletAccountIcon } from '@/components/WalletAccountIcon'
+import { WalletAccountIcon } from '@/components/wallet/wallet-account-icon'
 
 import {
   Card,

@@ -1,11 +1,11 @@
 "use client";
 
 import { UiWalletAccount } from '@wallet-standard/react';
-import { Button } from "../ui/button";
-import { WalletAccountIcon } from '../WalletAccountIcon';
+import { Button } from "@/components/ui/button";
+import { WalletAccountIcon } from './wallet-account-icon';
 import { ChevronDownIcon } from "@radix-ui/react-icons";
-import { DropdownMenuTrigger } from "../ui/dropdown-menu";
-import { DialogTrigger } from "../ui/dialog";
+import { DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { DialogTrigger } from "@/components/ui/dialog";
 
 interface WalletTriggerProps {
     selectedWalletAccount: UiWalletAccount | undefined;
