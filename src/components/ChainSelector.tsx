@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext } from 'react';
+import { useSolanaChain } from '@/solana';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,14 +9,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { ChainContext } from '../context/ChainContext';
 
 export function ChainSelector() {
-  const { displayName: currentChainName, chain, setChain } = useContext(ChainContext);
-  
+  const { chain, chains, setChain } = useSolanaChain()
+
   const currentChainBadge = (
     <Button variant="outline">
-      {currentChainName}
+      {chain.displayName}
     </Button>
   );
 
@@ -31,22 +30,16 @@ export function ChainSelector() {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuRadioGroup
-          value={chain}
+          value={chain.chain}
           onValueChange={(value) => {
             setChain(value as `solana:${string}`);
           }}
         >
-          {process.env.REACT_EXAMPLE_APP_ENABLE_MAINNET === 'true' && (
-            <DropdownMenuRadioItem value="solana:mainnet">
-              Mainnet Beta
+          {chains.map(item => (
+            <DropdownMenuRadioItem key={item.chain} value={item.chain} disabled={item.chain === chain.chain}>
+              {item.displayName}
             </DropdownMenuRadioItem>
-          )}
-          <DropdownMenuRadioItem value="solana:devnet">
-            Devnet
-          </DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="solana:testnet">
-            Testnet
-          </DropdownMenuRadioItem>
+          ))}
         </DropdownMenuRadioGroup>
       </DropdownMenuContent>
     </DropdownMenu>

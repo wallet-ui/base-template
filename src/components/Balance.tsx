@@ -1,13 +1,12 @@
 "use client";
 
+import { useSolanaChain, useSolanaRpc } from '@/solana';
 import { IconExclamationmarkTriangle } from 'symbols-react';
 import { address } from '@solana/web3.js';
 import type { UiWalletAccount } from '@wallet-standard/react';
-import { useContext, useMemo } from 'react';
+import { useMemo } from 'react';
 import useSWRSubscription from 'swr/subscription';
 
-import { ChainContext } from '../context/ChainContext';
-import { RpcContext } from '../context/RpcContext';
 import { getErrorMessage } from '../errors';
 import { balanceSubscribe } from '../functions/balance';
 import { ErrorDialog } from './ErrorDialog';
@@ -25,17 +24,17 @@ type Props = Readonly<{
 const seenErrors = new WeakSet();
 
 export function Balance({ account }: Props) {
-    const { chain } = useContext(ChainContext);
-    const { rpc, rpcSubscriptions } = useContext(RpcContext);
+    const { chain } = useSolanaChain();
+    const { rpc, rpcSubscriptions } = useSolanaRpc();
     const subscribe = useMemo(() => balanceSubscribe.bind(null, rpc, rpcSubscriptions), [rpc, rpcSubscriptions]);
-    const { data: lamports, error } = useSWRSubscription({ address: address(account.address), chain }, subscribe);
+    const { data: lamports, error } = useSWRSubscription({ address: address(account.address), chain: chain.chain }, subscribe);
 
     if (error && !seenErrors.has(error)) {
         return (
             <>
                 <ErrorDialog
                     error={error}
-                    key={`${account.address}:${chain}`}
+                    key={`${account.address}:${chain.chain}`}
                     onClose={() => {
                         seenErrors.add(error);
                     }}

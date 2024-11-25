@@ -1,8 +1,8 @@
 "use client"
 
-import { useContext, useEffect } from 'react'
+import { useSolanaWallet } from '@/solana';
+import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { SelectedWalletAccountContext } from '@/context/SelectedWalletAccountContext'
 import { AnimatedText } from '../ui/animated-text'
 import { IconSailboatFill } from 'symbols-react'
 import { CopyText } from '../ui/copy-text'
@@ -22,7 +22,7 @@ const LOGOS = [
 
 export function LandingPage() {
   const router = useRouter()
-  const [selectedWalletAccount] = useContext(SelectedWalletAccountContext)
+  const [selectedWalletAccount] = useSolanaWallet()
   const { theme } = useTheme();
 
   useEffect(() => {

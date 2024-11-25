@@ -1,10 +1,10 @@
 "use client";
 
+import { useSolanaWallet } from '@/solana';
 import { StandardConnect, StandardDisconnect } from '@wallet-standard/core';
 import { uiWalletAccountBelongsToUiWallet, useWallets } from '@wallet-standard/react';
-import { useContext, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
-import { SelectedWalletAccountContext } from '../../context/SelectedWalletAccountContext';
 import { ErrorDialog } from '../ErrorDialog';
 import {
     DropdownMenu,
@@ -30,7 +30,7 @@ interface Props {
 export function ConnectWalletMenu({ children }: Props) {
     const { current: NO_ERROR } = useRef(Symbol());
     const wallets = useWallets();
-    const [selectedWalletAccount, setSelectedWalletAccount] = useContext(SelectedWalletAccountContext);
+    const [selectedWalletAccount, setSelectedWalletAccount] = useSolanaWallet();
     const [error, setError] = useState<symbol>(NO_ERROR);
     const [open, setOpen] = useState(false);
     const [showInfo, setShowInfo] = useState(false);

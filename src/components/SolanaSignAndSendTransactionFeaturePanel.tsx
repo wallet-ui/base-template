@@ -1,5 +1,6 @@
 "use client";
 
+import { useSolanaChain, useSolanaRpc } from '@/solana';
 import { useWalletAccountTransactionSendingSigner } from '@solana/react';
 import {
     address,
@@ -18,7 +19,7 @@ import {
 import { getTransferSolInstruction } from '@solana-program/system';
 import { getUiWalletAccountStorageKey, type UiWalletAccount, useWallets } from '@wallet-standard/react';
 import type { SyntheticEvent } from 'react';
-import { useContext, useId, useMemo, useRef, useState } from 'react';
+import { useId, useMemo, useRef, useState } from 'react';
 import { useSWRConfig } from 'swr';
 
 import { Button } from "@/components/ui/button";
@@ -38,8 +39,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ChainContext } from '../context/ChainContext';
-import { RpcContext } from '../context/RpcContext';
 import { ErrorDialog } from './ErrorDialog';
 import { WalletMenuItemContent } from './WalletMenuItemContent';
 
@@ -59,7 +58,7 @@ function solStringToLamports(solQuantityString: string) {
 export function SolanaSignAndSendTransactionFeaturePanel({ account }: Props) {
     const { mutate } = useSWRConfig();
     const { current: NO_ERROR } = useRef(Symbol());
-    const { rpc } = useContext(RpcContext);
+    const { rpc } = useSolanaRpc();
     const wallets = useWallets();
     const [isSendingTransaction, setIsSendingTransaction] = useState(false);
     const [error, setError] = useState<symbol | Error>(NO_ERROR);
@@ -77,8 +76,8 @@ export function SolanaSignAndSendTransactionFeaturePanel({ account }: Props) {
             }
         }
     }, [recipientAccountStorageKey, wallets]);
-    const { chain: currentChain, solanaExplorerClusterName } = useContext(ChainContext);
-    const transactionSendingSigner = useWalletAccountTransactionSendingSigner(account, currentChain);
+    const { chain } = useSolanaChain()
+    const transactionSendingSigner = useWalletAccountTransactionSendingSigner(account, chain.chain);
     const lamportsInputId = useId();
     const recipientSelectId = useId();
 
@@ -117,8 +116,8 @@ export function SolanaSignAndSendTransactionFeaturePanel({ account }: Props) {
                         );
                         assertIsTransactionMessageWithSingleSendingSigner(message);
                         const signature = await signAndSendTransactionMessageWithSigners(message);
-                        void mutate({ address: transactionSendingSigner.address, chain: currentChain });
-                        void mutate({ address: recipientAccount.address, chain: currentChain });
+                        void mutate({ address: transactionSendingSigner.address, chain: chain.chain });
+                        void mutate({ address: recipientAccount.address, chain: chain.chain });
                         setLastSignature(signature);
                         setSolQuantityString('');
                     } catch (e) {
@@ -157,7 +156,7 @@ export function SolanaSignAndSendTransactionFeaturePanel({ account }: Props) {
                                 <SelectContent>
                                     {wallets.flatMap(wallet =>
                                         wallet.accounts
-                                            .filter(({ chains }) => chains.includes(currentChain))
+                                            .filter(({ chains }) => chains.includes(chain.chain))
                                             .map(account => {
                                                 const key = getUiWalletAccountStorageKey(account);
                                                 return (
@@ -207,7 +206,7 @@ export function SolanaSignAndSendTransactionFeaturePanel({ account }: Props) {
                                     <a
                                         href={`https://explorer.solana.com/tx/${getBase58Decoder().decode(
                                             lastSignature,
-                                        )}?cluster=${solanaExplorerClusterName}`}
+                                        )}?cluster=${chain.solanaExplorerClusterName}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="text-sm text-primary hover:underline"

@@ -1,9 +1,9 @@
 import './globals.css'
 import { type Metadata } from 'next'
 import { geistSans, geistMono } from '@/lib/fonts'
-import { Providers } from '@/components/providers/Providers'
 import { Nav } from '@/components/Nav'
 import { ThemeProvider } from '@/components/ui/theme-provicer'
+import { CHAIN_CONFIG_DEVNET, CHAIN_CONFIG_LOCAL, CHAIN_CONFIG_TESTNET, SolanaProvider } from '@/solana';
 import PlausibleProvider from 'next-plausible'
 import { Toaster } from "sonner";
 
@@ -25,10 +25,10 @@ export default function RootLayout({
       </head>
       <body>
         <ThemeProvider>
-          <Providers>
-            <Nav />
+          <SolanaProvider chains={[CHAIN_CONFIG_DEVNET, CHAIN_CONFIG_LOCAL, CHAIN_CONFIG_TESTNET]}>
+            <Nav/>
             {children}
-          </Providers>
+          </SolanaProvider>
           <Toaster />
         </ThemeProvider>
       </body>

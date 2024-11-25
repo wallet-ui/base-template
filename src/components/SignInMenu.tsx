@@ -1,10 +1,11 @@
 "use client";
 
+import { useSolanaWallet } from '@/solana';
 import { AlertTriangle } from 'lucide-react';
 import { SolanaSignIn } from '@solana/wallet-standard-features';
 import type { UiWallet } from '@wallet-standard/react';
 import { useWallets } from '@wallet-standard/react';
-import { useContext, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
 import {
@@ -14,7 +15,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { SelectedWalletAccountContext } from '../context/SelectedWalletAccountContext';
 import { ErrorDialog } from './ErrorDialog';
 import { SignInMenuItem } from './SignInMenuItem';
 import { UnconnectableWalletMenuItem } from './UnconnectableWalletMenuItem';
@@ -26,7 +26,7 @@ interface Props {
 export function SignInMenu({ children }: Props) {
   const { current: NO_ERROR } = useRef(Symbol());
   const wallets = useWallets();
-  const [, setSelectedWalletAccount] = useContext(SelectedWalletAccountContext);
+  const [, setSelectedWalletAccount] = useSolanaWallet();
   const [error, setError] = useState(NO_ERROR);
   const [forceClose, setForceClose] = useState(false);
 
