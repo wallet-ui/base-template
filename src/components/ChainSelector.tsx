@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext } from 'react';
+import { useSolanaChain } from '@/solana';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,14 +9,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { ChainContext } from '../context/ChainContext';
 
 export function ChainSelector() {
-  const { displayName: currentChainName, chain, setChain } = useContext(ChainContext);
-  
+  const { chain, setChain } = useSolanaChain()
+
   const currentChainBadge = (
     <Button variant="outline">
-      {currentChainName}
+      {chain.displayName}
     </Button>
   );
 
@@ -31,7 +30,7 @@ export function ChainSelector() {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuRadioGroup
-          value={chain}
+          value={chain.chain}
           onValueChange={(value) => {
             setChain(value as `solana:${string}`);
           }}
