@@ -11,7 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 
 export function ChainSelector() {
-  const { chain, setChain } = useSolanaChain()
+  const { chain, chains, setChain } = useSolanaChain()
 
   const currentChainBadge = (
     <Button variant="outline">
@@ -35,17 +35,11 @@ export function ChainSelector() {
             setChain(value as `solana:${string}`);
           }}
         >
-          {process.env.REACT_EXAMPLE_APP_ENABLE_MAINNET === 'true' && (
-            <DropdownMenuRadioItem value="solana:mainnet">
-              Mainnet Beta
+          {chains.map(item => (
+            <DropdownMenuRadioItem key={item.chain} value={item.chain} disabled={item.chain === chain.chain}>
+              {item.displayName}
             </DropdownMenuRadioItem>
-          )}
-          <DropdownMenuRadioItem value="solana:devnet">
-            Devnet
-          </DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="solana:testnet">
-            Testnet
-          </DropdownMenuRadioItem>
+          ))}
         </DropdownMenuRadioGroup>
       </DropdownMenuContent>
     </DropdownMenu>
