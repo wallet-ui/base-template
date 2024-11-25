@@ -1,5 +1,6 @@
 'use client'
 
+import { useSolanaChain, useSolanaWallet } from '@/solana';
 import { Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { getUiWalletAccountStorageKey } from '@wallet-standard/react'
@@ -9,8 +10,6 @@ import { FeatureNotSupportedCallout } from '@/components/FeatureNotSupportedCall
 import { SolanaSignAndSendTransactionFeaturePanel } from '@/components/SolanaSignAndSendTransactionFeaturePanel'
 import { SolanaSignMessageFeaturePanel } from '@/components/SolanaSignMessageFeaturePanel'
 import { WalletAccountIcon } from '@/components/WalletAccountIcon'
-import { ChainContext } from '@/context/ChainContext'
-import { SelectedWalletAccountContext } from '@/context/SelectedWalletAccountContext'
 
 import {
   Card,
@@ -20,13 +19,12 @@ import {
   CardDescription
 } from '@/components/ui/card'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { useContext } from 'react'
 
 export default function DashboardPage() {
-    const { chain } = useContext(ChainContext)
-    const [selectedWalletAccount] = useContext(SelectedWalletAccountContext)
+    const { chain } = useSolanaChain()
+    const [selectedWalletAccount] = useSolanaWallet()
     const errorBoundaryResetKeys = [
-        chain,
+        chain.chain,
         selectedWalletAccount && getUiWalletAccountStorageKey(selectedWalletAccount),
     ].filter(Boolean)
 
@@ -54,7 +52,7 @@ export default function DashboardPage() {
                                 <CardTitle className="text-xl">Balance</CardTitle>
                                 <ErrorBoundary
                                     fallback={<span className="text-muted-foreground">&ndash;</span>}
-                                    key={`${selectedWalletAccount.address}:${chain}`}
+                                    key={`${selectedWalletAccount.address}:${chain.chain}`}
                                 >
                                     <Suspense fallback={<div className="h-5 w-5 animate-spin" />}>
                                         <Balance account={selectedWalletAccount} />
